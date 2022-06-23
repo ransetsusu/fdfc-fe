@@ -1,13 +1,30 @@
-body {
+/* css reset */
+html, body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  background: #EEF1F6
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+form {
+  width: 100%;
+}
+
+.form-error {
+  color: red;
+  margin: 0 5px;
+  text-align: center;
+  font-size: 12px;
+}
+
+
+div, p, span, button, h1, h2, h3, h4, h5 {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.field-errors {
+  width: 100%;
 }
