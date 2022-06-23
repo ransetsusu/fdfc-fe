@@ -1,4 +1,4 @@
-import { FormatColorResetOutlined } from '@mui/icons-material';
+
 import { actionTypes } from '../constants/actionTypes';
 import messages from '../constants/messages';
 
@@ -21,6 +21,7 @@ export const AuthReducer = (initialState, action) => {
     case actionTypes.LOGIN_SUCCESS:
       return {
         ...initialState,
+        loading: false,
         token: action.payload.token
       }
     case actionTypes.LOGIN_ERR:
@@ -49,7 +50,7 @@ export const AuthReducer = (initialState, action) => {
       return {
         ...initialState,
         loading: false,
-        errorMessage: action.payload.errMsg || messages.REGISTRATION_ERROR
+        errorMessage: action.payload?.errMsg || messages.REGISTRATION_ERROR
       }
     case actionTypes.USER_DETAIL_REQUEST:
       return {
@@ -61,6 +62,38 @@ export const AuthReducer = (initialState, action) => {
         ...initialState,
         user: action.payload.user,
         loading: false
+      }
+    case actionTypes.USER_DETAIL_ERR:
+      return {
+        ...initialState,
+        user: '',
+        loading: false
+      }
+    case actionTypes.UPDATE_USER_DETAIL_REQUEST:
+      return {
+        ...initialState,
+        loading: true
+      }
+    case actionTypes.UPDATE_USER_DETAIL_SUCCESS:
+      return {
+        ...initialState,
+        user: action.payload.user,
+        loading: false
+      }
+    case actionTypes.UPDATE_USER_DETAIL_ERR:
+      return {
+        ...initialState,
+        loading: false
+      }
+    case 'LOADING':
+      return {
+        ...initialState,
+        loading: true
+      }
+    case 'UNLOADING':
+      return {
+        ...initialState,
+        loading: true
       }
     default:
       throw new Error(`Unkown action type: ${action.type}`)

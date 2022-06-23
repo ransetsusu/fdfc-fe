@@ -46,7 +46,6 @@ function App() {
 function RequireAuth({ children }) {
   const auth = useAuth()
   const location = useLocation()
-
   if (localStorage.getItem('_AccessToken') || auth.token) {
     return children
   }

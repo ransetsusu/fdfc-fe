@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import {
   TextField,
   Button,
@@ -36,11 +37,10 @@ const FormTextField = styled(TextField)`
   }
 `
 
-
-
 const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useAuthDispatch()
+  const navigate = useNavigate()
   const { loading, errorMessage } = useAuth()
   const { control, formState: { errors }, handleSubmit } = useForm({
     defaultValues: {
@@ -48,7 +48,7 @@ const SignUpForm = () => {
     }
   })
 
-  const onSubmit = data => {
+  const onSubmit = async data => {
     const { username, password1, password2 } = data
     if (password1 !== password2) {
       dispatch({
@@ -56,6 +56,30 @@ const SignUpForm = () => {
         payload: { errMsg: messages.CONFIRM_PASSWORD_NOTMATCH }
       })
     }
+    let payload = {username, password: password1}
+    try {
+      let response = await register(dispatch, payload)
+      console.log(response)
+      if (response) {
+        if (typeof response.username == "object") {
+          dispatch({
+            type: actionTypes.REGISTER_ERR,
+            payload: { errMsg: messages.USER_ALREADY_EXISTS }
+          })
+          return
+        }
+        try {
+          let response = await login(dispatch, payload)
+          if (!response.token) return
+          navigate('/', {replace: true})
+        } catch (error) {
+          console.log('login error: ', error)
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   return (
